@@ -1,0 +1,30 @@
+{
+  "name": "expense-tracker-api",
+  "version": "1.0.0",
+  "description": "An API for an expense tracker application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eleazar-ng/Expense-Tracker-API.git"
+  },
+  "keywords": [
+    "api",
+    "expense-tracker",
+    "tracker",
+    "expense"
+  ],
+  "author": "Laizer",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Eleazar-ng/Expense-Tracker-API/issues"
+  },
+  "homepage": "https://github.com/Eleazar-ng/Expense-Tracker-API#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  }
+}
