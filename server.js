@@ -10,5 +10,5 @@ server.listen(PORT, (err)=> {
   if (err) {
     return console.log('something bad happened', err)
   }
-  console.log(`\nExpense Tracker API server running on http://localhost:${PORT}`);
+  console.log(`\nExpense-Tracker API server running on http://localhost:${PORT}`);
 })
