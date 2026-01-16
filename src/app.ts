@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { env } from "./config/env";
 import { errorHandler } from "./utils/error.handler";
 import { Routers } from "./routes/index.route";
+import { rateLimiter } from "./middleware/auth.middleware";
 
 const app = express();
 
@@ -27,6 +28,9 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Rate limiter
+app.use(rateLimiter);
 
 // Ignite routes
 app.use(Routers);
