@@ -7,7 +7,7 @@ export const signupSchema = z.object({
   firstName: z.string().min(2, 'Firstname must be at least 2 characters').max(50, 'Firstname cannot exceed 50 characters'),
   lastName: z.string().min(2, 'Lastname must be at least 2 characters').max(50, 'Lastname cannot exceed 50 characters'),
   email: z.email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 2 characters').max(100, 'Password cannot exceed 100 characters')
+  password: z.string().min(8, 'Password must be at least 8 characters').max(100, 'Password cannot exceed 100 characters')
   .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,'Password must contain at least one uppercase letter, one lowercase letter, and one number')
 })
 
@@ -16,10 +16,9 @@ export const validate = (schema: z.ZodSchema) => (request: Request, response: Re
     schema.parse(request.body);
     next()
   } catch (err) {
-
     if(err instanceof z.ZodError){
       const parsed = JSON.parse(err.message);
-      return error(response, parsed[0].message, 400 )
+      return error(response, parsed[0].message, 400)
     }
     next(error);
   }
