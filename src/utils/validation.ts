@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { error } from "./api.response";
+import { RequestValidationError } from "../errors";
 
 export const signupSchema = z.object({
   firstName: z.string().min(2, 'Firstname must be at least 2 characters').max(50, 'Firstname cannot exceed 50 characters'),
@@ -18,7 +19,7 @@ export const validate = (schema: z.ZodSchema) => (request: Request, response: Re
   } catch (err) {
     if(err instanceof z.ZodError){
       const parsed = JSON.parse(err.message);
-      return error(response, parsed[0].message, 400)
+      throw new RequestValidationError(parsed[0].message);
     }
     next(error);
   }

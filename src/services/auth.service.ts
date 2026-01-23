@@ -1,4 +1,4 @@
-import { ForbiddenError } from "../errors";
+import { ConflictError } from "../errors";
 import { SignupRequest } from "../interfaces/requests";
 import { User } from "../repositories";
 import { Helper } from "../utils/helper";
@@ -8,7 +8,7 @@ export class AuthService {
     try {
       const existingUser = await User.findUnique({email: data.email.toLowerCase()});
       if(existingUser){
-        throw new ForbiddenError('Email is already in use by another user');
+        throw new ConflictError('Email is already in use by another user');
       }
 
       const hashedPassword = await Helper.hashPassword(data.password);
