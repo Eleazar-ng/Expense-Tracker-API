@@ -12,6 +12,11 @@ export const signupSchema = z.object({
   .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,'Password must contain at least one uppercase letter, one lowercase letter, and one number')
 })
 
+export const loginSchema = z.object({
+  email: z.email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters').max(100, 'Password cannot exceed 100 characters')
+})
+
 export const validate = (schema: z.ZodSchema) => (request: Request, response: Response, next: NextFunction) => {
   try {
     schema.parse(request.body);
