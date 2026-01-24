@@ -3,7 +3,9 @@ import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { error } from "./api.response";
 import { RequestValidationError } from "../errors";
+import { Categories } from "./constants";
 
+// Auth Validations
 export const signupSchema = z.object({
   firstName: z.string().min(2, 'Firstname must be at least 2 characters').max(50, 'Firstname cannot exceed 50 characters'),
   lastName: z.string().min(2, 'Lastname must be at least 2 characters').max(50, 'Lastname cannot exceed 50 characters'),
@@ -15,6 +17,15 @@ export const signupSchema = z.object({
 export const loginSchema = z.object({
   email: z.email('Invalid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters').max(100, 'Password cannot exceed 100 characters')
+})
+
+
+// Expense Validations
+export const expenseSchema = z.object({
+  amount: z.number().positive('Amount must be positive'),
+  description: z.string().max(500, 'Description too long').optional(),
+  category: z.enum(Categories),
+  date: z.iso.datetime().optional()
 })
 
 export const validate = (schema: z.ZodSchema) => (request: Request, response: Response, next: NextFunction) => {

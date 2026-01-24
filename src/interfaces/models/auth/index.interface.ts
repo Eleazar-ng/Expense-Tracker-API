@@ -9,3 +9,7 @@ export interface UserCreate {
   firstName: string;
   lastName: string;
 }
+
+export interface UserId {
+  userId: string;
+}
