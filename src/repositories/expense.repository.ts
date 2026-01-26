@@ -1,5 +1,5 @@
 import { prisma } from "../config/prisma/prisma";
-import { ExpenseCreate, ExpenseFetch, ExpenseFilter } from "../interfaces/models";
+import { ExpenseCreate, ExpenseFetch, ExpenseFilter, ExpenseUpdate } from "../interfaces/models";
 import { PAGE_LIMIT } from "../utils/constants";
 
 export class Expense {
@@ -46,6 +46,17 @@ export class Expense {
     try {
       return await prisma.expense.findFirst({
         where:data
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static update = async (data:ExpenseUpdate, req:ExpenseFetch) => {
+    try {
+      return await prisma.expense.update({
+        where:req,
+        data
       })
     } catch (error) {
       throw error

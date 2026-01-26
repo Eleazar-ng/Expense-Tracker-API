@@ -1,7 +1,7 @@
 import { ExpenseCategory } from "../config/prisma/generated/prisma/enums";
 import { ForbiddenError, NotFoundError } from "../errors";
 import { ExpenseFilter, UserId } from "../interfaces/models";
-import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest } from "../interfaces/requests";
+import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest, UpdateExpenseRequest } from "../interfaces/requests";
 import { Expense } from "../repositories/expense.repository";
 import { Categories } from "../utils/constants";
 import { Helper } from "../utils/helper";
@@ -56,9 +56,29 @@ export class ExpenseService {
     try {
       const expense = await Expense.getOne({id:data.id, userId:user.userId});
       if(!expense){
-        throw new NotFoundError("Expense not found")
+        throw new NotFoundError("Expense not found");
       }
       return expense;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static update = async (data:UpdateExpenseRequest, param:GetExpenseRequest, user:UserId) => {
+    try {
+      const expenseData:any = {...data};
+      if(data.category){
+        const category = Helper.getCategory(data.category);
+        expenseData.category = category;
+      }
+
+      const expense = await Expense.getOne({id:param.id, userId:user.userId});
+      if(!expense){
+        throw new NotFoundError("Expense not found");
+      }
+
+      const updateExpense = await Expense.update(expenseData, {id:param.id, userId:user.userId});
+      return updateExpense;
     } catch (error) {
       throw error
     }

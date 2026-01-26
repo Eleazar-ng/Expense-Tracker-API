@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AsyncHandler } from "../middleware/async.handler";
 import { success } from "../utils/api.response";
-import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest } from "../interfaces/requests";
+import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest, UpdateExpenseRequest } from "../interfaces/requests";
 import { ExpenseService } from "../services";
 
 export class ExpenseController {
@@ -29,6 +29,16 @@ export class ExpenseController {
       const userId:any = request.user?.userId;
       const data = await ExpenseService.getOne(pathParam, {userId});
       return success(response, 'Expense retrieved successfully', data, 200);
+    }
+  )
+
+  static update = AsyncHandler(
+    async (request:Request<GetExpenseRequest,{},UpdateExpenseRequest,{}>, response:Response) => {
+      const payload = request.body;
+      const pathParam = request.params
+      const userId:any = request.user?.userId;
+      const data = await ExpenseService.update(payload,pathParam,{userId});
+      return success(response, 'Expense update successfully', data, 201);
     }
   )
 }

@@ -16,3 +16,5 @@ export interface GetExpensesRequest {
 export interface GetExpenseRequest {
   id: string;
 }
+
+export type UpdateExpenseRequest = Partial <CreateExpenseRequest>;

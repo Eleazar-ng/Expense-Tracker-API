@@ -35,6 +35,10 @@ export const expenseFilterSchema = z.object({
   page: z.string().transform(Number).default(1).optional()
 })
 
+export const expenseUpdateSchema = expenseSchema.partial();
+
+
+// Schema Validators
 export const validate = (schema: z.ZodSchema) => (request: Request, response: Response, next: NextFunction) => {
   try {
     schema.parse(request.body);

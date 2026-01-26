@@ -22,3 +22,5 @@ export interface ExpenseFetch {
   id: string;
   userId: string;
 }
+
+export type ExpenseUpdate = Partial <ExpenseCreate>;

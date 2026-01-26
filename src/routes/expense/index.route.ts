@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { expenseFilterSchema, expenseSchema, queryValidate, validate } from "../../utils/validation";
+import { expenseFilterSchema, expenseSchema, expenseUpdateSchema, queryValidate, validate } from "../../utils/validation";
 import { ExpenseController } from "../../controllers";
 import { authenticate } from "../../middleware/auth.middleware";
 
@@ -10,5 +10,6 @@ router.use(authenticate);
 router.post("/", validate(expenseSchema), ExpenseController.create);
 router.get("/", queryValidate(expenseFilterSchema), ExpenseController.getAll);
 router.get("/:id", ExpenseController.getOne);
+router.put("/:id", validate(expenseUpdateSchema), ExpenseController.update);
 
 export { router as Expense };
