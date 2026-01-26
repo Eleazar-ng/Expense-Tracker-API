@@ -83,4 +83,18 @@ export class ExpenseService {
       throw error
     }
   }
+
+  static delete = async (data:GetExpenseRequest, user:UserId) => {
+    try {
+      const expense = await Expense.getOne({id:data.id, userId:user.userId});
+      if(!expense){
+        throw new NotFoundError("Expense not found");
+      }
+      
+      const deletedExpense = await Expense.delete({id:data.id, userId:user.userId});
+      return deletedExpense;
+    } catch (error) {
+      throw error
+    }
+  }
 }

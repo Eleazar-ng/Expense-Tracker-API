@@ -62,4 +62,14 @@ export class Expense {
       throw error
     }
   }
+
+  static delete = async (data:ExpenseFetch) => {
+    try {
+      return await prisma.expense.delete({
+        where:data
+      })
+    } catch (error) {
+      throw error
+    }
+  }
 }

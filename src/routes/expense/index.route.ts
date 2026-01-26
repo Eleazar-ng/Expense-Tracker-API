@@ -11,5 +11,5 @@ router.post("/", validate(expenseSchema), ExpenseController.create);
 router.get("/", queryValidate(expenseFilterSchema), ExpenseController.getAll);
 router.get("/:id", ExpenseController.getOne);
 router.put("/:id", validate(expenseUpdateSchema), ExpenseController.update);
-
+router.delete("/:id", ExpenseController.delete);
 export { router as Expense };

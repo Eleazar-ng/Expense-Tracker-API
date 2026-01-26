@@ -38,7 +38,16 @@ export class ExpenseController {
       const pathParam = request.params
       const userId:any = request.user?.userId;
       const data = await ExpenseService.update(payload,pathParam,{userId});
-      return success(response, 'Expense update successfully', data, 201);
+      return success(response, 'Expense updated successfully', data, 200);
+    }
+  )
+
+  static delete = AsyncHandler(
+    async (request:Request<GetExpenseRequest,{},{},{}>, response:Response) => {
+      const pathParam = request.params
+      const userId:any = request.user?.userId;
+      const data = await ExpenseService.delete(pathParam,{userId});
+      return success(response, 'Expense deleted successfully', data, 204);
     }
   )
 }
