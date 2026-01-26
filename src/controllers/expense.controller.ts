@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AsyncHandler } from "../middleware/async.handler";
 import { success } from "../utils/api.response";
-import { CreateExpenseRequest, GetExpenseRequest } from "../interfaces/requests";
+import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest } from "../interfaces/requests";
 import { ExpenseService } from "../services";
 
 export class ExpenseController {
@@ -15,11 +15,20 @@ export class ExpenseController {
   )
 
   static getAll = AsyncHandler(
-    async (request:Request<{},{},{},GetExpenseRequest>, response:Response) => {
+    async (request:Request<{},{},{},GetExpensesRequest>, response:Response) => {
       const queries = request.query;
       const userId:any = request.user?.userId;
       const data = await ExpenseService.getAll(queries, {userId});
       return success(response, 'Expenses retrieved successfully', data, 200);
+    }
+  )
+
+  static getOne = AsyncHandler(
+    async (request:Request<GetExpenseRequest,{},{},{}>, response:Response) => {
+      const pathParam = request.params
+      const userId:any = request.user?.userId;
+      const data = await ExpenseService.getOne(pathParam, {userId});
+      return success(response, 'Expense retrieved successfully', data, 200);
     }
   )
 }

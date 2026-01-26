@@ -1,5 +1,5 @@
 import { prisma } from "../config/prisma/prisma";
-import { ExpenseCreate, ExpenseFilter } from "../interfaces/models";
+import { ExpenseCreate, ExpenseFetch, ExpenseFilter } from "../interfaces/models";
 import { PAGE_LIMIT } from "../utils/constants";
 
 export class Expense {
@@ -37,6 +37,16 @@ export class Expense {
           totalPages: Math.ceil(total / PAGE_LIMIT)
         }
       }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static getOne = async (data:ExpenseFetch) => {
+    try {
+      return await prisma.expense.findFirst({
+        where:data
+      })
     } catch (error) {
       throw error
     }

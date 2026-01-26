@@ -9,5 +9,6 @@ router.use(authenticate);
 
 router.post("/", validate(expenseSchema), ExpenseController.create);
 router.get("/", queryValidate(expenseFilterSchema), ExpenseController.getAll);
+router.get("/:id", ExpenseController.getOne);
 
 export { router as Expense };

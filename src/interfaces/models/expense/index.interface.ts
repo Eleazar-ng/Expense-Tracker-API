@@ -17,3 +17,8 @@ export interface DateFilter {
   lte: Date;
   gte: Date;
 }
+
+export interface ExpenseFetch {
+  id: string;
+  userId: string;
+}

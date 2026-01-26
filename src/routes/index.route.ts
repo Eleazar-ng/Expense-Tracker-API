@@ -14,6 +14,6 @@ route.use(`${URL}`, Home);
 
 //Auth
 route.use(`${URL}/auth`, Auth);
-route.use(`${URL}/expense`, Expense)
+route.use(`${URL}/expenses`, Expense)
 
 export {route as Routers}

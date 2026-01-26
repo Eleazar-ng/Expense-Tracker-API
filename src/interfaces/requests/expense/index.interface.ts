@@ -6,9 +6,13 @@ export interface CreateExpenseRequest {
   date: Date;
 }
 
-export interface GetExpenseRequest {
+export interface GetExpensesRequest {
   period?: string;
   startDate?: string;
   endDate?: string;
   page?: string;
+}
+
+export interface GetExpenseRequest {
+  id: string;
 }

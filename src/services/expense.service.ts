@@ -1,7 +1,7 @@
 import { ExpenseCategory } from "../config/prisma/generated/prisma/enums";
-import { ForbiddenError } from "../errors";
+import { ForbiddenError, NotFoundError } from "../errors";
 import { ExpenseFilter, UserId } from "../interfaces/models";
-import { CreateExpenseRequest, GetExpenseRequest } from "../interfaces/requests";
+import { CreateExpenseRequest, GetExpenseRequest, GetExpensesRequest } from "../interfaces/requests";
 import { Expense } from "../repositories/expense.repository";
 import { Categories } from "../utils/constants";
 import { Helper } from "../utils/helper";
@@ -19,7 +19,7 @@ export class ExpenseService {
     }
   }
 
-  static getAll = async (data:GetExpenseRequest, user:UserId) => {
+  static getAll = async (data:GetExpensesRequest, user:UserId) => {
     try {
       const { period, page = 1} = data;
 
@@ -47,6 +47,18 @@ export class ExpenseService {
         expenses: expenses.expenses,
         pagination: expenses.pagination
       }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static getOne = async (data:GetExpenseRequest, user:UserId) => {
+    try {
+      const expense = await Expense.getOne({id:data.id, userId:user.userId});
+      if(!expense){
+        throw new NotFoundError("Expense not found")
+      }
+      return expense;
     } catch (error) {
       throw error
     }
