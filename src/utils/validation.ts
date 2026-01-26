@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { error } from "./api.response";
 import { RequestValidationError } from "../errors";
-import { Categories } from "./constants";
+import { Categories, Periods } from "./constants";
 
 // Auth Validations
 export const signupSchema = z.object({
@@ -28,9 +28,29 @@ export const expenseSchema = z.object({
   date: z.iso.datetime().optional()
 })
 
+export const expenseFilterSchema = z.object({
+  period: z.enum(Periods).optional(),
+  startDate: z.iso.datetime().optional(),
+  endDate: z.iso.datetime().optional(),
+  page: z.string().transform(Number).default(1).optional()
+})
+
 export const validate = (schema: z.ZodSchema) => (request: Request, response: Response, next: NextFunction) => {
   try {
     schema.parse(request.body);
+    next()
+  } catch (err) {
+    if(err instanceof z.ZodError){
+      const parsed = JSON.parse(err.message);
+      throw new RequestValidationError(parsed[0].message);
+    }
+    next(error);
+  }
+}
+
+export const queryValidate = (schema: z.ZodSchema) => (request: Request, response: Response, next: NextFunction) => {
+  try {
+    schema.parse(request.query);
     next()
   } catch (err) {
     if(err instanceof z.ZodError){

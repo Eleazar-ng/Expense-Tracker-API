@@ -7,3 +7,13 @@ export interface ExpenseCreate {
   date?: Date;
   userId: string;
 }
+
+export interface ExpenseFilter {
+  userId: string;
+  date: DateFilter;
+}
+
+export interface DateFilter {
+  lte: Date;
+  gte: Date;
+}

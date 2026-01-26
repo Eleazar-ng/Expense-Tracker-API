@@ -60,4 +60,23 @@ export class Helper {
 
     return expenseCategory;
   }
+
+  static getTimeRange = (period: string) => {
+    const now = new Date();
+    const startDate = new Date();
+
+    switch(period){
+      case 'week':
+        startDate.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        startDate.setMonth(now.getMonth() - 1);
+        break;
+      case '3months':
+        startDate.setMonth(now.getMonth() - 3);
+        break;
+    }
+
+    return {startDate, endDate: now};
+  }
 }
